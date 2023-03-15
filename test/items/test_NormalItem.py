@@ -1,8 +1,6 @@
 from src.gilded_rose import *
 import pytest
 
-
-
 @pytest.fixture
 def store():
     item = NormalItem("+5 Dexterity Vest", 10, 20)
