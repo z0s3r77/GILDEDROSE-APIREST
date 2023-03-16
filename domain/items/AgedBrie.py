@@ -3,7 +3,6 @@ from domain.items.NormalItem import NormalItem
 
 
 class AgedBrie(NormalItem, Interfaz):
-
     # AgedBrie, hereda el comportamiento y los metodos de NormalItem, Item e Interfaz
     # Por eso, este __init__, ejecuta NormalItem__init__, que a su vez, ejecuta Item__Init__
     # Lo mismo pasará con los demás items
@@ -13,7 +12,6 @@ class AgedBrie(NormalItem, Interfaz):
     # El Queso, si no está caducado, suma 1 a su calidad,
     # Si está caducado, suma dos
     def updateQuality(self):
-
         if self.getSell_in() >= 0:
             self.computeQuality(1)
         else:

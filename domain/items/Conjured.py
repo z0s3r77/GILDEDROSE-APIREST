@@ -3,7 +3,6 @@ from domain.items.NormalItem import NormalItem
 
 
 class Conjured(NormalItem, Interfaz):
-
     def __init__(self, name, sell_in, quality):
         NormalItem.__init__(self, name, sell_in, quality)
 
@@ -12,7 +11,6 @@ class Conjured(NormalItem, Interfaz):
     # Tan solo hay que mirar más arriba, como se actualizan los items normales
 
     def updateQuality(self):
-
         if self.getSell_in() >= 0:
             self.computeQuality(-2)
         else:

@@ -13,7 +13,6 @@ class NormalItem(Item, Interfaz):
 
     # Calculamos la calidad de un NormalItem
     def computeQuality(self, valor):
-
         if self.quality + valor > 50:
             self.setQuality(50)
 
@@ -28,7 +27,6 @@ class NormalItem(Item, Interfaz):
     # Después como se ha actualizado la calidad, significa que ha pasado un día y se ejecuta setSell_In
     # Así interactuan todos los NormalItems
     def updateQuality(self):
-
         if self.getSell_in() > 0:
             self.computeQuality(-2)
         else:
