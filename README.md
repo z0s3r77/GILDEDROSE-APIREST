@@ -1,10 +1,17 @@
 # PROYECTO-FLASK
 **Indice**
 - Requisitos
+  - Funcionales
+    - Flask
+    - Pytest
+  - Desarrollo
+    - Tox
+    - Coverage
+    - Bandit
 - Docker 
   - Dockerfile
   - docker build
-  - docker run 
+  - docker run
 
 ## Requisitos
 
