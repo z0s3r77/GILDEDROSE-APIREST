@@ -1,5 +1,5 @@
-from src.gilded_rose import *
 import pytest
+from domain.items.AgedBrie import AgedBrie
 
 '''
 Unitary test to check if Aged Brie quality has the correct behaviour

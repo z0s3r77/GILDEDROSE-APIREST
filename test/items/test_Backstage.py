@@ -1,6 +1,6 @@
-from src.gilded_rose import *
 import pytest
 
+from domain.items.Backstage import Backstage
 
 
 @pytest.fixture

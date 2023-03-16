@@ -1,5 +1,6 @@
-from src.gilded_rose import *
 import pytest
+
+from domain.items.Conjured import Conjured
 
 '''
 Test the class conjured

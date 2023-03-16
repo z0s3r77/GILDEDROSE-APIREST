@@ -1,5 +1,6 @@
-from src.gilded_rose import *
 import pytest
+
+from domain.items.Sulfuras import Sulfuras
 
 '''
 This module will check the legendary item sulfuras. And its quality behaviour.

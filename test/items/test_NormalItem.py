@@ -1,5 +1,7 @@
-from src.gilded_rose import *
 import pytest
+
+from domain.items.NormalItem import NormalItem
+
 
 @pytest.fixture
 def store():
