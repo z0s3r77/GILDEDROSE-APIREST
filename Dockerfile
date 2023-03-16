@@ -1,13 +1,15 @@
-FROM python:3.10.0-alpine
+# IMAGEN DE PYTHON3.10 con Alpine, que es una version ligera de SO
+FROM python:3.10-alpine
 
-COPY ./requirements.txt /flask_app/requirements.txt
 
-WORKDIR /flask_app
+WORKDIR /app
 
-RUN pip3 install -r requirements.txt
+COPY requirements.txt /app
+RUN pip3 install --no-cache-dir -r requirements.txt
 
-COPY . /flask_app
+COPY . /app
 
-ENTRYPOINT [ "python3" ]
+EXPOSE 5000
 
-CMD ["controller/main.py" ]
+# Incio el server de Flask
+CMD ["python3", "controller/main.py"]
