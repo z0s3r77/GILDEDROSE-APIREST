@@ -39,7 +39,7 @@ jobs:
     #Lanzamos el comando Pytest
       - name: Test with pytest
         env:
-          KEY: '${{ vars.KEY }}'
-          ATLAS: '${{ vars.ATLAS }}'
+          KEY: '${{ secrets.KEY }}'
+          ATLAS: '${{ secrets.ATLAS }}'
         run:  |
           pytest
