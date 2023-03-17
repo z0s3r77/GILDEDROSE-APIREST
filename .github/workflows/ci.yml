@@ -43,6 +43,6 @@ jobs:
     #Lanzamos el comando Pytest
       - name: Test with pytest
         run:  |
-          export KEY="${{ secrets.KEY }}"
-          export ATLAS="${{ secrets.ATLAS }}"
+          export KEY="${{ env.KEY }}"
+          export ATLAS="${{ env.ATLAS }}"
           pytest
