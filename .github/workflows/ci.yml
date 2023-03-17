@@ -5,13 +5,16 @@ on:
       - dev
   pull_request:
     branches:
-      - dev
+      - master
   workflow_dispatch:
 
 jobs:
   CI:
   #Se elige un RUNNER "especie de contenedor"
     runs-on:  ubuntu-latest
+    env:
+      KEY: '${{ secrets.KEY }}'
+      ATLAS: '${{ secrets.ATLAS }}'
     steps:
     #Descargamos una copia del repositorio en el runner con el checkout
       - uses:  actions/checkout@v3
@@ -35,6 +38,10 @@ jobs:
         run:  |
           python3 -m pip install --upgrade pip
           pip install -r requirements.txt
+          export ATLAS=${{ secrets.ATLAS }}
+          export KEY=${{ secrets.KEY }}
+          echo $ATLAS
+          echo $KEY
 
     #Lanzamos el comando Pytest
       - name: Test with pytest

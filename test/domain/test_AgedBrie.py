@@ -1,9 +1,9 @@
-from src.gilded_rose import *
 import pytest
+from domain.items.AgedBrie import AgedBrie
 
-'''
+"""
 Unitary test to check if Aged Brie quality has the correct behaviour
-'''
+"""
 
 
 # Using a fixture to interact correctly with the class AgedBrie
@@ -21,7 +21,6 @@ def test_updateQuality(cheese):
     check_sell_in = 5
 
     for i in range(0, 12):
-
         # If the sellin is positive, increase 1
         if check_sell_in >= 0:
             check_quality += 1
