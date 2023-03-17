@@ -46,6 +46,4 @@ jobs:
     #Lanzamos el comando Pytest
       - name: Test with pytest
         run:  |
-          export ATLAS=${{ secrets.ATLAS }}
-          export KEY=${{ secrets.KEY }}
-          tox
+          pytest
