@@ -10,8 +10,11 @@ on:
       - closed
       
 jobs:
-  build-and-deploy:
+  CD-Build-deploy:
     runs-on: ubuntu-latest
+    env:
+      KEY: '${{ secrets.KEY }}'
+      ATLAS: '${{ secrets.ATLAS }}'
     steps:
       - name: Checkout the code
         uses: actions/checkout@v2
@@ -23,6 +26,10 @@ jobs:
         run: |
           python -m pip install --upgrade pip
           pip install -r requirements.txt
+          export ATLAS=${{ secrets.ATLAS }}
+          export KEY=${{ secrets.KEY }}
+          echo $ATLAS
+          echo $KEY
       - name: Run tests with pytest
         run: |
           pytest
