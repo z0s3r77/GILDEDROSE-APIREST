@@ -38,7 +38,7 @@ jobs:
         run:  |
           python3 -m pip install --upgrade pip
           pip install -r requirements.txt
-          export ATLAS=${{ secrets.ATLAS }}
+          export ATLAS=${{ secrets.SEBAS }}
           export KEY=${{ secrets.KEY }}
 
     #Lanzamos el comando Pytest
