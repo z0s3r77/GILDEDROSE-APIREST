@@ -1,4 +1,4 @@
-name: Pytest Flask App
+name: CI Flask App 
 on:
   push:
     branches:
@@ -19,11 +19,11 @@ jobs:
     #Descargamos una copia del repositorio en el runner con el checkout
       - uses:  actions/checkout@v3
 
-    #Instalamos Python, a la verión 3.8
-      - name:  Instalando Python 3.8
+    #Instalamos Python, a la verión 3.10
+      - name:  Installing Python 3.10
         uses:  actions/setup-python@v4.3.1
         with:
-          python-verion: 3.8
+          python-verion: 3.10
 
     #Con está acción guardamos en caché las dependencias descargadas para mejorar la velociadad de ejecución del RUNNER
       - uses: actions/cache@v3
@@ -34,7 +34,7 @@ jobs:
             ${{ runner.os }}-pip-
 
     #Instalamos dependencias (al tener el actions/cache@v3 no se instalan)
-      - name:  Instalando dependencias
+      - name:  Intalling dependencie
         run:  |
           python3 -m pip install --upgrade pip
           pip install -r requirements.txt
@@ -44,6 +44,6 @@ jobs:
           echo $KEY
 
     #Lanzamos el comando Pytest
-      - name: Test with pytest
+      - name: Running Pytest
         run:  |
           pytest
