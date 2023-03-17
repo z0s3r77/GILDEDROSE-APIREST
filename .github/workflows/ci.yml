@@ -9,8 +9,8 @@ on:
   workflow_dispatch:
 
 env:
-  KEY: ${{ secrets.KEY }}
-  ATLAS: ${{ secrets.ATLAS }}
+  KEY: ${{ env.KEY }}
+  ATLAS: ${{ env.ATLAS }}
 
 jobs:
   CI:
