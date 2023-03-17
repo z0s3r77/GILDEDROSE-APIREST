@@ -28,11 +28,17 @@ jobs:
           pip install -r requirements.txt
           export ATLAS=${{ secrets.ATLAS }}
           export KEY=${{ secrets.KEY }}
+          export DOCKER_USERNAME=${{ secrets.DOCKER_USERNAME }}
+          export DOCKER_PASSWORD=${{ secrets.DOCKER_PASSWORD }}
+          echo $DOCKER_USERNAME
+          echo $DOCKER_PASSWORD
           echo $ATLAS
           echo $KEY
       - name: Run tests with pytest
         run: |
           pytest
+          export DOCKER_USERNAME=${{ secrets.DOCKER_USERNAME }}
+          export DOCKER_PASSWORD=${{ secrets.DOCKER_PASSWORD }}
       - name: Build Docker image
         uses: docker/build-push-action@v2
         with:
