@@ -12,6 +12,9 @@ jobs:
   CI:
   #Se elige un RUNNER "especie de contenedor"
     runs-on:  ubuntu-latest
+    env:
+      KEY: '${{ secrets.KEY }}'
+      ATLAS: '${{ secrets.ATLAS }}'
     steps:
     #Descargamos una copia del repositorio en el runner con el checkout
       - uses:  actions/checkout@v3
@@ -38,8 +41,5 @@ jobs:
 
     #Lanzamos el comando Pytest
       - name: Test with pytest
-        env:
-          KEY: '${{ secrets.KEY }}'
-          ATLAS: '${{ secrets.ATLAS }}'
         run:  |
           pytest
