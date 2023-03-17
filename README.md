@@ -67,3 +67,7 @@ Ahora montamos la aplicación, en mi caso compartiendo el directorio PROYECTO-FL
     docker run -p 5000:5000 -v C:\Users\Ipopd\Documents\FLASK\PROYECTO-FLASK\:/app/. --rm flaskolivanders
 ````
 Esto me permite, seguir trabajando en el proyecto y, cuando se considera que se ha avanzado, se hace un commit de la imagen del contenedor. Esto con el fin de, al final del proyecto, tener la aplicación guardada y montada en una imagen y desplegarla en un contenedor.
+
+
+docker run -e KEY="SwVPwadBrjuOJcUQrh887SGLLUq9IGo2e6fFOPo0lQumOkRNW0xTC5v3
+YROR1S3T" -e ATLAS="mongodb+srv://sestacio:trancas24@sandbox.dcnt9qr.mongodb.net/test?retryWrites=true&w=majority" -p 5000:5000 --rm  -v C:\Users\Ipopd\Documents\FLASK\PROYECTO-FLASK\:/app/.   flaskapirestolivandersv2

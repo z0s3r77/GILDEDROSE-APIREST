@@ -8,6 +8,10 @@ on:
       - master
   workflow_dispatch:
 
+env:
+  KEY: ${{ secrets.KEY }}
+  ATLAS: ${{ secrets.ATLAS }}
+
 jobs:
   CI:
   #Se elige un RUNNER "especie de contenedor"

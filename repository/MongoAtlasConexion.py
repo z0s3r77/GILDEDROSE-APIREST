@@ -1,5 +1,6 @@
 import pymongo
 import urllib.request
+import os
 
 
 # Check conexion MongoAtlas
@@ -24,7 +25,5 @@ if connect(host="https://www.mongodb.com/atlas/app-services/data-api") == False:
 
 # Modulo que guarda variables importantes
 
-MongoAtlas = pymongo.MongoClient(
-    "mongodb+srv://sestacio:trancas24@sandbox.dcnt9qr.mongodb.net/test?retryWrites=true&w=majority"
-)
-MongoKey = "SwVPwadBrjuOJcUQrh887SGLLUq9IGo2e6fFOPo0lQumOkRNW0xTC5v3YROR1S3T"
+MongoAtlas = pymongo.MongoClient(os.getenv('ATLAS'))
+MongoKey = os.getenv('KEY')
