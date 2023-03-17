@@ -7,8 +7,8 @@ class Conjured(NormalItem, Interfaz):
         NormalItem.__init__(self, name, sell_in, quality)
 
     # Este es el nuevo Item, Conjured.
-    # Se degrada en calidad, el doble de rapido que los items normales
-    # Tan solo hay que mirar más arriba, como se actualizan los items normales
+    # Se degrada en calidad, el doble de rapido que los domain normales
+    # Tan solo hay que mirar más arriba, como se actualizan los domain normales
 
     def updateQuality(self):
         if self.getSell_in() >= 0:

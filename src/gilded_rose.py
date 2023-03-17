@@ -12,7 +12,7 @@ class GildedRose:
     def getObjects(self):
         return self.objects
 
-    # Esta función nos crea una lista con los objetos de los items de Emily filtrados.
+    # Esta función nos crea una lista con los objetos de los domain de Emily filtrados.
     # Aunque todos sean Items, en este codigo, se han hecho subclases por cada tipo de item
     # Esas subclases són los objetos disponibles en el diccionario self.avaliableObjects.
     def setObjects(self):
@@ -97,7 +97,7 @@ class NormalItem(Item, Interfaz):
 class AgedBrie(NormalItem, Interfaz):
     # AgedBrie, hereda el comportamiento y los metodos de NormalItem, Item e Interfaz
     # Por eso, este __init__, ejecuta NormalItem__init__, que a su vez, ejecuta Item__Init__
-    # Lo mismo pasará con los demás items
+    # Lo mismo pasará con los demás domain
     def __init__(self, name, sell_in, quality):
         NormalItem.__init__(self, name, sell_in, quality)
 
@@ -145,8 +145,8 @@ class Conjured(NormalItem, Interfaz):
         NormalItem.__init__(self, name, sell_in, quality)
 
     # Este es el nuevo Item, Conjured.
-    # Se degrada en calidad, el doble de rapido que los items normales
-    # Tan solo hay que mirar más arriba, como se actualizan los items normales
+    # Se degrada en calidad, el doble de rapido que los domain normales
+    # Tan solo hay que mirar más arriba, como se actualizan los domain normales
 
     def updateQuality(self):
         if self.getSell_in() >= 0:
