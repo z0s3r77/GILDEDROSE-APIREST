@@ -25,5 +25,5 @@ if connect(host="https://www.mongodb.com/atlas/app-services/data-api") == False:
 
 # Modulo que guarda variables importantes
 
-MongoAtlas = pymongo.MongoClient(os.getenv('ATLAS'))
-MongoKey = os.getenv('KEY')
+MongoAtlas = pymongo.MongoClient(os.getenv("ATLAS"))
+MongoKey = os.getenv("KEY")
