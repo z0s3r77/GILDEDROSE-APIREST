@@ -46,4 +46,4 @@ jobs:
     #Lanzamos el comando Pytest
       - name: Test with pytest
         run:  |
-          pytest
+          tox
