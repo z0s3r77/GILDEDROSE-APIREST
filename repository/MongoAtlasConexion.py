@@ -21,6 +21,3 @@ def connect(host):
 
 if connect(host="https://www.mongodb.com/atlas/app-services/data-api") == False:
     quit()
-
-
-

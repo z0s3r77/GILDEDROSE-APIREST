@@ -8,9 +8,9 @@ api = Api(app)
 
 class Item(Resource):
     item_fields = {
-        'name': fields.String,
-        'sell_in': fields.Integer,
-        'quality': fields.Integer
+        "name": fields.String,
+        "sell_in": fields.Integer,
+        "quality": fields.Integer,
     }
 
     @marshal_with(item_fields)
@@ -24,8 +24,8 @@ class Main(Resource):
         return "<h1>FLASK-API-REST Olivanders</h1>"
 
 
-api.add_resource(Item, '/items/<int:id>')
-api.add_resource(Main, '/')
+api.add_resource(Item, "/items/<int:id>")
+api.add_resource(Main, "/")
 
 if __name__ == "__main__":
     app.run(host="0.0.0.0", port=5000, debug=True)

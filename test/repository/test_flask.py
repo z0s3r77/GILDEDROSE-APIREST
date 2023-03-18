@@ -24,5 +24,3 @@ def runner(application):
 def test_request_example(client):
     response = client.get("/")
     assert b"<h1>FLASK-API-REST Olivanders</h1>" in response.data
-
-
