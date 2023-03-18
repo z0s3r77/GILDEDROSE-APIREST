@@ -24,3 +24,26 @@ def runner(application):
 def test_request_example(client):
     response = client.get("/")
     assert b"<h1>FLASK-API-REST Olivanders</h1>" in response.data
+    assert response.status_code == 200
+
+
+def test_get_item(client):
+    result = {
+        "name": "+5 Dexterity Vest",
+        "sell_in": 10,
+        "quality": 20
+    }
+
+    response = client.get("/items/1")
+    assert response.get_json() == result
+    assert response.status_code == 200
+
+
+def test_get_bad_item(client):
+    result = {
+        "message": "The item with 1223123123 doesn't exist"
+    }
+
+    response = client.get("/items/1223123123")
+    assert response.get_json() == result
+    assert response.status_code == 404

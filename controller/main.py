@@ -1,5 +1,5 @@
 from flask import Flask
-from flask_restful import Resource, Api, fields, marshal_with
+from flask_restful import Resource, Api, fields, marshal_with, abort
 from service.crudMain import getItem
 
 app = Flask(__name__)
@@ -16,7 +16,9 @@ class Item(Resource):
     @marshal_with(item_fields)
     def get(self, id):
         items = getItem(id)
-        return items
+        if items == {"name": "", "sell_in": 0, "quality": 0}:
+            abort(404, message="The item with {} doesn't exist".format(id))
+        return items, 200
 
 
 class Main(Resource):
