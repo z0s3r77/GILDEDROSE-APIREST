@@ -1,9 +1,6 @@
-import pymongo
 import urllib.request
-import os
 
 
-# Check conexion MongoAtlas
 def connect(host):
     if host != "https://www.mongodb.com/atlas/app-services/data-api":
         print("No ha introducido la URL correcta")
@@ -19,5 +16,5 @@ def connect(host):
         return False
 
 
-if connect(host="https://www.mongodb.com/atlas/app-services/data-api") == False:
+if not connect(host="https://www.mongodb.com/atlas/app-services/data-api"):
     quit()

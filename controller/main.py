@@ -1,33 +1,20 @@
 from flask import Flask
-from flask_restful import Resource, Api, fields, marshal_with, abort
-from service.crudMain import getItem
-
-app = Flask(__name__)
-api = Api(app)
+from flask_restful import Api
+from controller.item import Item
+from controller.wellcome import Wellcome
 
 
-class Item(Resource):
-    item_fields = {
-        "name": fields.String,
-        "sell_in": fields.Integer,
-        "quality": fields.Integer,
-    }
+def create_app():
 
-    @marshal_with(item_fields)
-    def get(self, id):
-        items = getItem(id)
-        if items == {"name": "", "sell_in": 0, "quality": 0}:
-            abort(404, message="The item with {} doesn't exist".format(id))
-        return items, 200
+    app = Flask(__name__)
+    api = Api(app, catch_all_404s=True)
 
+    api.add_resource(Item, "/items/<int:id>", "/items/insert/")
+    api.add_resource(Wellcome, "/")
 
-class Main(Resource):
-    def get(self):
-        return "<h1>FLASK-API-REST Olivanders</h1>"
+    return app
 
-
-api.add_resource(Item, "/items/<int:id>")
-api.add_resource(Main, "/")
 
 if __name__ == "__main__":
-    app.run(host="0.0.0.0", port=5000, debug=True)
+    app = create_app()
+    app.run(debug=True)

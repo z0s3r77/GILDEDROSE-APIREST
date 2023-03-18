@@ -1,11 +1,11 @@
 import pytest
-from controller.main import app
+from controller.main import create_app
 
 
 # https://flask.palletsprojects.com/en/2.2.x/testing/
 @pytest.fixture()
 def application():
-    test_app = app
+    test_app = create_app()
     test_app.config.update({"TESTING": True})
 
     yield test_app
@@ -47,3 +47,26 @@ def test_get_bad_item(client):
     response = client.get("/items/1223123123")
     assert response.get_json() == result
     assert response.status_code == 404
+
+
+def test_post_item(client):
+    item = {
+        "_id": 99999,
+        "name": "Test object",
+        "sell_in": 1099,
+        "quality": 2000
+    }
+
+    response = client.post("/items/insert/", json=item)
+    assert response.status_code == 200
+
+
+def test_post_fail_item(client):
+    item = {
+        "_id": "this is not number",
+        "name": "Test object",
+        "sell_in": 1099,
+        "quality": 2000
+    }
+    response = client.post("/items/insert/", json=item)
+    assert response.status_code == 400
