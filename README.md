@@ -4,6 +4,7 @@
   - Funcionales
     - Flask
     - Pytest
+    - flask-restful
   - Desarrollo
     - Tox
     - Coverage
