@@ -24,6 +24,9 @@ def takeItem(id):
 
 
 def parseItem(item):
+    """
+    This method is for be sure that the item have a correct Format
+    """
     if item:
         result = {
             "name": item[0]["name"],
@@ -37,17 +40,28 @@ def parseItem(item):
 
 
 def getItem(id):
+    """
+    This method return an item, uses takeItem() and parseItem() for be SRP
+    """
     item = takeItem(id)
     result = parseItem(item)
 
     return result
 
 
+
 def deleteItem(id):
+    """
+    This method only return TRUE or FALSE if an item have been deleted
+    """
     return mongo_repo.delete(id)
 
 
 def updateItem(id):
+    """
+    This method take and ID and updates his values at the database, returns TRUE of FALSE if the item
+    have been updated
+    """
 
     someItem = getItem(id)
 
