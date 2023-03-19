@@ -28,6 +28,11 @@ class MongoRepository(Repository):
 
             return result
 
+    def update(self, id, updatedItem):
+        filterToUpdate = {"_id": id}
+        result = self.magical_items.replace_one(filterToUpdate, updatedItem)
+        return result.acknowledged
+
     def delete(self, id):
 
         query = {"_id": id}
@@ -35,4 +40,3 @@ class MongoRepository(Repository):
             return True
         else:
             return False
-

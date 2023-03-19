@@ -1,3 +1,5 @@
+from domain.items.GildedRose import GildedRose
+from domain.items.Item import Item
 from repository.MongoRepository import MongoRepository
 
 mongo_repo = MongoRepository()
@@ -41,11 +43,28 @@ def getItem(id):
     return result
 
 
-def updateItem(id):
-    item = getItem(id)
-
-    return True
-
-
 def deleteItem(id):
     return mongo_repo.delete(id)
+
+
+def updateItem(id):
+
+    someItem = getItem(id)
+
+    items = [Item(name=someItem['name'], sell_in=someItem['sell_in'], quality=someItem['quality'])]
+
+    itemsToParticularObject = GildedRose(items)
+    itemsToParticularObject.setObjects()
+    items = itemsToParticularObject.getObjects()
+
+    GildedRose(items).update_quality()
+
+    for item in items:
+
+        result = {
+            "_id": id,
+            "name": item[0].getName(),
+            "sell_in": item[0].getSell_in(),
+            "quality": item[0].getQuality()
+        }
+        return mongo_repo.update(id, result)

@@ -41,8 +41,8 @@ def test_update_item():
     service.updateItem(99999)
     resultItem = {
         "name": "+5 Dexterity Vest",
-        "sell_in": 10,
-        "quality": 20
+        "sell_in": 9,
+        "quality": 18
     }
     assert service.getItem(99999) == resultItem
 
