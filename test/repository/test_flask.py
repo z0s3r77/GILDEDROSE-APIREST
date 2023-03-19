@@ -57,7 +57,7 @@ def test_post_item(client):
         "quality": 2000
     }
 
-    response = client.post("/items/insert/", json=item)
+    response = client.put("/items/insert/", json=item)
     assert response.status_code == 200
 
 
@@ -68,5 +68,5 @@ def test_post_fail_item(client):
         "sell_in": 1099,
         "quality": 2000
     }
-    response = client.post("/items/insert/", json=item)
+    response = client.put("/items/insert/", json=item)
     assert response.status_code == 400

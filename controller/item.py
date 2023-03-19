@@ -23,7 +23,7 @@ class Item(Resource):
             abort(404, message="The item with {} doesn't exist".format(id))
         return items, 200
 
-    def post(self):
+    def put(self):
         item = item_parser.parse_args()
         success = insertItem(item)
         if success:
