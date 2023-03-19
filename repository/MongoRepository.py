@@ -27,3 +27,12 @@ class MongoRepository(Repository):
                 result.append(item)
 
             return result
+
+    def delete(self, id):
+
+        query = {"_id": id}
+        if self.magical_items.find_one_and_delete(query) is not None:
+            return True
+        else:
+            return False
+

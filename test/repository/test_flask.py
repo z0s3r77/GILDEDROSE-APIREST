@@ -51,7 +51,7 @@ def test_get_bad_item(client):
 
 def test_post_item(client):
     item = {
-        "_id": 99999,
+        "_id": 99989,
         "name": "Test object",
         "sell_in": 1099,
         "quality": 2000

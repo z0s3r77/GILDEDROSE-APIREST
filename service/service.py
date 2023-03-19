@@ -11,7 +11,7 @@ def insertItem(item):
     return mongo_repo.create(item)
 
 
-def readItem(id):
+def takeItem(id):
     """
     This method make a request to CRUD and returns parsed dict.
     Get an ID and return dict
@@ -35,7 +35,17 @@ def parseItem(item):
 
 
 def getItem(id):
-    item = readItem(id)
+    item = takeItem(id)
     result = parseItem(item)
 
     return result
+
+
+def updateItem(id):
+    item = getItem(id)
+
+    return True
+
+
+def deleteItem(id):
+    return mongo_repo.delete(id)
