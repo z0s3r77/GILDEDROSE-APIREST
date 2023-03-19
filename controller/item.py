@@ -17,7 +17,7 @@ item_fields = {
 
 class Item(Resource):
     @marshal_with(item_fields)
-    def get(self, id):
+    def post(self, id):
         items = getItem(id)
         if items == {"name": "", "sell_in": 0, "quality": 0}:
             abort(404, message="The item with {} doesn't exist".format(id))
@@ -28,3 +28,4 @@ class Item(Resource):
         success = insertItem(item)
         if success:
             return {"Message": "The item has been introduced with id {}".format(item['_id'])}, 200
+

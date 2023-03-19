@@ -34,7 +34,7 @@ def test_get_item(client):
         "quality": 20
     }
 
-    response = client.get("/items/1")
+    response = client.post("/items/1")
     assert response.get_json() == result
     assert response.status_code == 200
 
@@ -44,7 +44,7 @@ def test_get_bad_item(client):
         "message": "The item with 1223123123 doesn't exist"
     }
 
-    response = client.get("/items/1223123123")
+    response = client.post("/items/1223123123")
     assert response.get_json() == result
     assert response.status_code == 404
 
