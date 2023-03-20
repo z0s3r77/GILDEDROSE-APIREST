@@ -1,5 +1,6 @@
 import pytest
 from service import service
+from service.service import intializeDb, dropCollection
 
 testItem = {
     "_id": 99999,
@@ -14,6 +15,10 @@ sulfuras = {
     "quality": 10
 }
 
+@pytest.mark.test_service
+def test_initializeDb():
+    succes = intializeDb()
+    assert succes == True
 
 @pytest.mark.test_service
 def test_insert_item():
@@ -85,3 +90,6 @@ def test_delete_item():
 @pytest.mark.test_service
 def test_delete_fail_item():
     assert service.deleteItem(12312323) == False
+    dropCollection()
+
+

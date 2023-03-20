@@ -9,3 +9,11 @@ class Repository(ABC):
     @abstractmethod
     def read(self, id):
         ...
+
+    @abstractmethod
+    def update(self, id, updatedItem):
+        ...
+
+    @abstractmethod
+    def delete(self, id):
+        ...

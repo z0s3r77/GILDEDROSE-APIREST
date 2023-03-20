@@ -16,6 +16,13 @@ def client(application):
     return application.test_client()
 
 
+
+
+def test_request_intializeDb(client):
+    response = client.get("/db/initialize")
+    assert response.status_code == 200
+    assert response.get_json() == {"Message": "GildedRose is Open!"}
+
 def test_request_example(client):
     response = client.get("/")
     assert b"<h1>FLASK-API-REST Olivanders</h1>" in response.data
@@ -90,4 +97,8 @@ def test_get_getAllItems(client):
 
 def test_get_updateAllItems(client):
     response = client.get("/db/update")
+    assert response.status_code == 200
+
+def test_get_deleteDb(client):
+    response = client.get("/db/drop")
     assert response.status_code == 200
