@@ -1,6 +1,5 @@
-from flask import Flask, request
-from flask_restful import Resource, Api, fields, marshal_with, abort, reqparse
-from service.service import getItem, insertItem, getAllItems
+from flask_restful import Resource, fields, marshal_with, abort, reqparse
+from service.service import getItem, insertItem, deleteItem
 
 item_parser = reqparse.RequestParser()
 item_parser.add_argument('_id', type=int, required=True)
@@ -28,5 +27,14 @@ class Item(Resource):
         success = insertItem(item)
         if success:
             return {"Message": "The item has been introduced with id {}".format(item['_id'])}, 200
+        else:
+            return {"Message": "The item has not been introduced, maybe is already at the DB"}
+
+    def delete(self, id):
+        success = deleteItem(id)
+        if success:
+            return {"Message": "The item has been deleted with id {}".format(id)}, 200
+        else:
+            return {"Message": "The item is not in the DB"}
 
 

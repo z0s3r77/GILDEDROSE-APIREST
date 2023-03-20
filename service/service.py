@@ -1,3 +1,4 @@
+from domain.ItemList import listItems
 from domain.items.AgedBrie import AgedBrie
 from domain.items.Backstage import Backstage
 from domain.items.Conjured import Conjured
@@ -5,21 +6,21 @@ from domain.items.NormalItem import NormalItem
 from domain.items.Sulfuras import Sulfuras
 from repository.MongoRepository import MongoRepository
 
-mongo_repo = MongoRepository()
+dabatase = MongoRepository('gildedRose', 'magicalitems')
 
 
 def insertItem(item):
     """
     This method inserts an item into database. RETURNS: Boolean
     """
-    return mongo_repo.create(item)
+    return dabatase.create(item)
 
 
 def takeItem(id):
     """
     This method make a request to CRUD and returns parsed dict. RETURNS: Item JSON
     """
-    item = mongo_repo.read(id)
+    item = dabatase.read(id)
 
     return item
 
@@ -54,7 +55,7 @@ def deleteItem(id):
     """
     This method delete an item from database. RETURN: Boolean
     """
-    return mongo_repo.delete(id)
+    return dabatase.delete(id)
 
 
 def setItemJsonToInstace(itemJson):
@@ -95,16 +96,16 @@ def updateItem(id):
     someItem = getItem(id)
     itemInstance = setItemJsonToInstace(someItem)
     itemInstance.updateQuality()
-    itemToJson = setJsonItem(itemInstance,id)
+    itemToJson = setJsonItem(itemInstance, id)
 
-    return mongo_repo.update(id, itemToJson)
+    return dabatase.update(id, itemToJson)
 
 
 def getAllItems():
     """
     This method return all the available items in the database. RETURN: List
     """
-    result = mongo_repo.read()
+    result = dabatase.read()
     return result
 
 
@@ -112,11 +113,32 @@ def updateAllItems():
     """
     This method take all the Items and make them update. RETURN: List
     """
-    result = mongo_repo.read()
+    result = dabatase.read()
 
     for item in result:
         updateItem(item['_id'])
 
-    result = mongo_repo.read()
+    result = dabatase.read()
     return result
 
+
+def intializeDb():
+    """
+    This method creates a new DB in the DB service and a new tabler/collection
+    and inserts the items
+    """
+    for item in listItems:
+        if not dabatase.create(item):
+            return False
+
+    return True
+
+def dropCollection():
+    """
+    This method remove all the data in the DB
+    """
+    dabatase.dropCollection()
+
+
+if __name__ == '__main__':
+    print(dropCollection())

@@ -1,18 +1,24 @@
 import pytest
 from service import service
+from service.service import intializeDb, dropCollection
 
 testItem = {
-        "_id": 99999,
-        "name": "+5 Dexterity Vest",
-        "sell_in": 10,
-        "quality": 20
-        }
+    "_id": 99999,
+    "name": "+5 Dexterity Vest",
+    "sell_in": 10,
+    "quality": 20
+}
 sulfuras = {
     "_id": 888,
     "name": "Aged Brie",
     "sell_in": 0,
     "quality": 10
 }
+
+@pytest.mark.test_service
+def test_initializeDb():
+    succes = intializeDb()
+    assert succes == True
 
 @pytest.mark.test_service
 def test_insert_item():
@@ -43,7 +49,6 @@ def test_get_fail_item():
 
 @pytest.mark.test_service
 def test_update_item():
-
     service.updateItem(99999)
     resultItem = {
         "name": "+5 Dexterity Vest",
@@ -52,9 +57,9 @@ def test_update_item():
     }
     assert service.getItem(99999) == resultItem
 
+
 @pytest.mark.test_service
 def test_update_AgedBrie_item():
-
     service.updateItem(888)
     resultAgedBrie = {
         "name": "Aged Brie",
@@ -63,6 +68,17 @@ def test_update_AgedBrie_item():
     }
     assert service.getItem(888) == resultAgedBrie
 
+
+@pytest.mark.test_service
+def test_getAllItems():
+    allItems = service.getAllItems()
+    assert len(allItems) >= 2
+
+
+@pytest.mark.test_service
+def test_updateAllItems():
+    allItems = service.updateAllItems()
+    assert len(allItems) >= 2
 
 
 @pytest.mark.test_service
@@ -74,3 +90,6 @@ def test_delete_item():
 @pytest.mark.test_service
 def test_delete_fail_item():
     assert service.deleteItem(12312323) == False
+    dropCollection()
+
+

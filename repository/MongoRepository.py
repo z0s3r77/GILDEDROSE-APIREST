@@ -4,11 +4,11 @@ from repository.Repository import Repository
 
 
 class MongoRepository(Repository):
-    def __init__(self):
+    def __init__(self, nameDb, nameCollection):
         self.mongo_atlas = pymongo.MongoClient(os.getenv("ATLAS"))
         self.mongo_key = os.getenv("KEY")
-        self.ollivander_shop_db = self.mongo_atlas["ollivanderShop"]
-        self.magical_items = self.ollivander_shop_db["magicalitems"]
+        self.gildedRoseDb = self.mongo_atlas[nameDb]
+        self.magical_items = self.gildedRoseDb[nameCollection]
 
     def create(self, item):
         try:
@@ -47,3 +47,6 @@ class MongoRepository(Repository):
             return True
         else:
             return False
+
+    def dropCollection(self):
+        self.magical_items.drop()
