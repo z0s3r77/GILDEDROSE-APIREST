@@ -7,7 +7,6 @@ from controller.wellcome import Wellcome
 
 
 def create_app():
-
     app = Flask(__name__)
     api = Api(app, catch_all_404s=True)
 
@@ -21,4 +20,4 @@ def create_app():
 
 if __name__ == "__main__":
     app = create_app()
-    app.run(debug=True)
+    app.run(host='0.0.0.0', debug=True)
