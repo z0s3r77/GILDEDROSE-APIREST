@@ -29,7 +29,7 @@ def test_request_example(client):
 
 def test_get_item(client):
 
-    response = client.post("/items/1")
+    response = client.get("/items/1")
     assert response.status_code == 200
 
 
@@ -37,7 +37,7 @@ def test_get_bad_item(client):
     result = {
         "message": "The item with 1223123123 doesn't exist"
     }
-    response = client.post("/items/1223123123")
+    response = client.get("/items/1223123123")
     assert response.get_json() == result
     assert response.status_code == 404
 

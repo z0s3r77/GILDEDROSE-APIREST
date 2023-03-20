@@ -98,3 +98,25 @@ def updateItem(id):
     itemToJson = setJsonItem(itemInstance,id)
 
     return mongo_repo.update(id, itemToJson)
+
+
+def getAllItems():
+    """
+    This method return all the available items in the database. RETURN: List
+    """
+    result = mongo_repo.read()
+    return result
+
+
+def updateAllItems():
+    """
+    This method take all the Items and make them update. RETURN: List
+    """
+    result = mongo_repo.read()
+
+    for item in result:
+        updateItem(item['_id'])
+
+    result = mongo_repo.read()
+    return result
+

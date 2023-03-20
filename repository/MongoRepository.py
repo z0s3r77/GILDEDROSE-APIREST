@@ -18,15 +18,22 @@ class MongoRepository(Repository):
         else:
             return True
 
-    def read(self, id):
-        query = {"_id": id}
+    def read(self, id=None):
 
-        if self.magical_items.count_documents(query) != 0:
-            result = []
-            for item in self.magical_items.find(query, {"_id": False}):
-                result.append(item)
+        if id is not None:
 
-            return result
+            query = {"_id": id}
+
+            if self.magical_items.count_documents(query) != 0:
+                result = []
+                for item in self.magical_items.find(query, {"_id": False}):
+                    result.append(item)
+
+                return result
+        else:
+
+            result = self.magical_items.find()
+            return list(result)
 
     def update(self, id, updatedItem):
         filterToUpdate = {"_id": id}

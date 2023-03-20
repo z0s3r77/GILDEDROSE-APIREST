@@ -1,6 +1,6 @@
 from flask import Flask, request
 from flask_restful import Resource, Api, fields, marshal_with, abort, reqparse
-from service.service import getItem, insertItem
+from service.service import getItem, insertItem, getAllItems
 
 item_parser = reqparse.RequestParser()
 item_parser.add_argument('_id', type=int, required=True)
@@ -17,7 +17,7 @@ item_fields = {
 
 class Item(Resource):
     @marshal_with(item_fields)
-    def post(self, id):
+    def get(self, id):
         items = getItem(id)
         if items == {"name": "", "sell_in": 0, "quality": 0}:
             abort(404, message="The item with {} doesn't exist".format(id))
