@@ -25,10 +25,6 @@ def test_updateQuality(cheese):
         if check_sell_in >= 0:
             check_quality += 1
 
-        # if the quality is negative, it returns to 0
-        if check_quality < 0:
-            check_quality = 0
-
         # Else if the sell in date has passed, the quality increases 2
         elif check_sell_in < 0:
             check_quality += 2
