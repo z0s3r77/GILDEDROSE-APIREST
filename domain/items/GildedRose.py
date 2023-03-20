@@ -6,8 +6,8 @@ class GildedRose:
         self.items = items
         self.objects = []
         self.avaliableObjects = {
-            "AgedBrie": "Aged Brie",
-            "Sulfuras": "Sulfuras, Hand of Ragnaros",
+            "AgedBrie": 'AgedBrie',
+            "Sulfuras": 'Sulfuras',
             "Backstage": "Backstage passes to a TAFKAL80ETC concert",
             "Conjured": "Conjured Mana Cake"
         }
@@ -31,4 +31,3 @@ class GildedRose:
     def update_quality(self):
         for item in self.items:
             item[0].updateQuality()
-

@@ -1,5 +1,8 @@
-from domain.items.GildedRose import GildedRose
-from domain.items.Item import Item
+from domain.items.AgedBrie import AgedBrie
+from domain.items.Backstage import Backstage
+from domain.items.Conjured import Conjured
+from domain.items.NormalItem import NormalItem
+from domain.items.Sulfuras import Sulfuras
 from repository.MongoRepository import MongoRepository
 
 mongo_repo = MongoRepository()
@@ -7,16 +10,14 @@ mongo_repo = MongoRepository()
 
 def insertItem(item):
     """
-    This method send item to CRUD and returns TRUE or FALSE
-    if the item has been inserted or not
+    This method inserts an item into database. RETURNS: Boolean
     """
     return mongo_repo.create(item)
 
 
 def takeItem(id):
     """
-    This method make a request to CRUD and returns parsed dict.
-    Get an ID and return dict
+    This method make a request to CRUD and returns parsed dict. RETURNS: Item JSON
     """
     item = mongo_repo.read(id)
 
@@ -25,7 +26,7 @@ def takeItem(id):
 
 def parseItem(item):
     """
-    This method is for be sure that the item have a correct Format
+    This method is for be sure that the item have a correct Format. RETURNS: Item JSON
     """
     if item:
         result = {
@@ -41,7 +42,7 @@ def parseItem(item):
 
 def getItem(id):
     """
-    This method return an item, uses takeItem() and parseItem() for be SRP
+    This method take an id a returns an item Json. RETURN: Item JSON
     """
     item = takeItem(id)
     result = parseItem(item)
@@ -49,36 +50,51 @@ def getItem(id):
     return result
 
 
-
 def deleteItem(id):
     """
-    This method only return TRUE or FALSE if an item have been deleted
+    This method delete an item from database. RETURN: Boolean
     """
     return mongo_repo.delete(id)
 
 
+def setItemJsonToInstace(itemJson):
+    """
+    This method takes an itemJson, and it converted in an Item from modules. RETURNS: Item Instance
+    """
+    avaliableObjects = {
+        "Aged Brie": AgedBrie,
+        "Sulfuras of Asgard": Sulfuras,
+        "Backstage passes to a TAFKAL80ETC concert": Backstage,
+        "Conjured Mana Cake": Conjured
+    }
+
+    item_class = avaliableObjects.get(itemJson['name'], NormalItem)
+    item_instance = item_class(name=itemJson['name'], sell_in=itemJson['sell_in'], quality=itemJson['quality'])
+    return item_instance
+
+
+def setJsonItem(itemInstance, id):
+    """
+    This method transforms an Item Instance into a JSON format, RETURN: Json Format
+    """
+    result = {
+        "_id": id,
+        "name": itemInstance.getName(),
+        "sell_in": itemInstance.getSell_in(),
+        "quality": itemInstance.getQuality()
+    }
+
+    return result
+
+
 def updateItem(id):
     """
-    This method take and ID and updates his values at the database, returns TRUE of FALSE if the item
-    have been updated
+    This method take and ID and updates his values at the database. RETURN : Boolean
     """
 
     someItem = getItem(id)
+    itemInstance = setItemJsonToInstace(someItem)
+    itemInstance.updateQuality()
+    itemToJson = setJsonItem(itemInstance,id)
 
-    items = [Item(name=someItem['name'], sell_in=someItem['sell_in'], quality=someItem['quality'])]
-
-    itemsToParticularObject = GildedRose(items)
-    itemsToParticularObject.setObjects()
-    items = itemsToParticularObject.getObjects()
-
-    GildedRose(items).update_quality()
-
-    for item in items:
-
-        result = {
-            "_id": id,
-            "name": item[0].getName(),
-            "sell_in": item[0].getSell_in(),
-            "quality": item[0].getQuality()
-        }
-        return mongo_repo.update(id, result)
+    return mongo_repo.update(id, itemToJson)
