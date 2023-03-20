@@ -1,9 +1,7 @@
 # IMAGEN DE PYTHON3.10 con Alpine, que es una version ligera de SO
 FROM python:3.10-alpine
 
-ENV KEY=$KEY
-ENV ATLAS=$ATLAS
-
+ENV PYTHONPATH="/app/"
 WORKDIR /app
 
 COPY requirements.txt /app
