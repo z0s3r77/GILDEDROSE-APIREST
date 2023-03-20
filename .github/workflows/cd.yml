@@ -37,6 +37,8 @@ jobs:
       - name: Run tests with pytest
         run: |
           pytest
+          pwd
+          export PYTHONPATH="/app/"
           export DOCKER_USERNAME=${{ secrets.DOCKER_USERNAME }}
           export DOCKER_PASSWORD=${{ secrets.DOCKER_PASSWORD }}
       
