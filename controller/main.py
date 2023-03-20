@@ -1,14 +1,24 @@
 from flask import Flask
-from flask import make_response
+from flask_restful import Api
+from controller.item import Item
+from controller.itemall import ItemAll
+from controller.updatedb import UpdateDB
+from controller.wellcome import Wellcome
 
-app = Flask(__name__)
 
+def create_app():
 
-@app.route("/")
-def index():
-    response = make_response("<h1>Flask is running in Dockerr</h1>")
-    return response
+    app = Flask(__name__)
+    api = Api(app, catch_all_404s=True)
+
+    api.add_resource(Item, "/items/<int:id>", "/items/insert/")
+    api.add_resource(ItemAll, "/items/all")
+    api.add_resource(UpdateDB, "/items/update")
+    api.add_resource(Wellcome, "/")
+
+    return app
 
 
 if __name__ == "__main__":
-    app.run(host="0.0.0.0", port=5000, debug=True)
+    app = create_app()
+    app.run(debug=True)
