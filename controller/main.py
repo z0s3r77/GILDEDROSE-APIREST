@@ -10,9 +10,9 @@ def create_app():
     app = Flask(__name__)
     api = Api(app, catch_all_404s=True)
 
-    api.add_resource(Item, "/items/<int:id>", "/items/insert/")
+    api.add_resource(Item, "/items/<int:id>", "/items/insert/", "/items/delete/<int:id>")
     api.add_resource(ItemAll, "/items/all")
-    api.add_resource(UpdateDB, "/items/update")
+    api.add_resource(UpdateDB, "/db/update")
     api.add_resource(Wellcome, "/")
 
     return app
