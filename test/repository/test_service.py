@@ -7,11 +7,17 @@ testItem = {
         "sell_in": 10,
         "quality": 20
         }
-
+sulfuras = {
+    "_id": 888,
+    "name": "Aged Brie",
+    "sell_in": 0,
+    "quality": 10
+}
 
 @pytest.mark.test_service
 def test_insert_item():
     assert service.insertItem(testItem) == True
+    assert service.insertItem(sulfuras) == True
 
 
 @pytest.mark.test_service
@@ -46,12 +52,23 @@ def test_update_item():
     }
     assert service.getItem(99999) == resultItem
 
+@pytest.mark.test_service
+def test_update_AgedBrie_item():
+
+    service.updateItem(888)
+    resultAgedBrie = {
+        "name": "Aged Brie",
+        "sell_in": -1,
+        "quality": 11
+    }
+    assert service.getItem(888) == resultAgedBrie
 
 
 
 @pytest.mark.test_service
 def test_delete_item():
     assert service.deleteItem(99999) == True
+    assert service.deleteItem(888) == True
 
 
 @pytest.mark.test_service
