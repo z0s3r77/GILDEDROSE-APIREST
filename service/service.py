@@ -128,10 +128,10 @@ def intializeDb():
     and inserts the items
     """
     for item in listItems:
-        if not dabatase.create(item):
-            return False
+        dabatase.create(item)
 
     return True
+
 
 def dropCollection():
     """
@@ -139,6 +139,3 @@ def dropCollection():
     """
     dabatase.dropCollection()
 
-
-if __name__ == '__main__':
-    print(dropCollection())

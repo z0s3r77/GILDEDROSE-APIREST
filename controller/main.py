@@ -15,6 +15,7 @@ def create_app():
 
     # Items endpoints
     api.add_resource(Item, "/items/<int:id>")
+    api.add_resource(Item, "/items/update/<int:id>", endpoint="update_item")
     api.add_resource(Item, "/items/insert/", endpoint="insert_item")
     api.add_resource(Item, "/items/delete/<int:id>", endpoint="delete_item")
     api.add_resource(ItemAll, "/items/all")
@@ -28,8 +29,3 @@ def create_app():
     api.add_resource(Wellcome, "/")
 
     return app
-
-
-if __name__ == "__main__":
-    app = create_app()
-    app.run(host='0.0.0.0', debug=True)

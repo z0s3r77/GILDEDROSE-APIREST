@@ -3,50 +3,49 @@ import pytest
 from domain.items.Backstage import Backstage
 
 
+
+
+# Fixture to create an object
 @pytest.fixture
-def store():
-    item = Backstage("Backstage passes to a TAFKAL80ETC concert", 15, 20)
-    return item
+def backstage():
+    test_backstage = Backstage("Backstage", 13, 40)
+
+    return test_backstage
 
 
-@pytest.mark.backstage
-def test_backstage(store):
-    """
-    We reate variables with the different states of the Backstage object
-    over the days that are provided in the file report.txt
-    """
+# Test the updateQuality method
+@pytest.mark.test_updateQuality
+def test_update_quality(backstage):
+    # Day zero
+    assert backstage.sell_in == 13
+    assert backstage.quality == 40
+    backstage.updateQuality()
 
-    dayOne = Backstage("Backstage passes to a TAFKAL80ETC concert", 14, 21)
-    dayTwo = Backstage("Backstage passes to a TAFKAL80ETC concert", 13, 22)
-    dayThree = Backstage("Backstage passes to a TAFKAL80ETC concert", 12, 23)
-    dayFour = Backstage("Backstage passes to a TAFKAL80ETC concert", 11, 24)
-    dayFive = Backstage("Backstage passes to a TAFKAL80ETC concert", 10, 25)
-    daySix = Backstage("Backstage passes to a TAFKAL80ETC concert", 9, 27)
+    # Day one
+    assert backstage.sell_in == 12
+    assert backstage.quality == 41
+    backstage.updateQuality()
 
-    """
-    we update once for each day it spends in the inventory 
-    and check that it matches the result of the report.txt
-    """
-    # update Day 1
-    store.updateQuality()
-    assert repr(store) == repr(dayOne)
+    # Day two
+    assert backstage.sell_in == 11
+    assert backstage.quality == 42
+    backstage.updateQuality()
 
-    # update Day 2
-    store.updateQuality()
-    assert repr(store) == repr(dayTwo)
+    # Day three
+    assert backstage.sell_in == 10
+    assert backstage.quality == 43
+    backstage.updateQuality()
 
-    # update Day 3
-    store.updateQuality()
-    assert repr(store) == repr(dayThree)
+    # Day four
+    assert backstage.sell_in == 9
+    assert backstage.quality == 45
+    backstage.updateQuality()
 
-    # update Day 4
-    store.updateQuality()
-    assert repr(store) == repr(dayFour)
+    # Day five
+    assert backstage.sell_in == 8
+    assert backstage.quality == 47
+    backstage.updateQuality()
 
-    # update Day 5
-    store.updateQuality()
-    assert repr(store) == repr(dayFive)
-
-    # update Day 6
-    store.updateQuality()
-    assert repr(store) == repr(daySix)
+    # Day six
+    assert backstage.sell_in == 7
+    assert backstage.quality == 49

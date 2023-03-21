@@ -16,16 +16,15 @@ def client(application):
     return application.test_client()
 
 
-
-
 def test_request_intializeDb(client):
     response = client.get("/db/initialize")
     assert response.status_code == 200
     assert response.get_json() == {"Message": "GildedRose is Open!"}
 
+
 def test_request_example(client):
     response = client.get("/")
-    assert b"<h1>FLASK-API-REST Olivanders</h1>" in response.data
+    assert response.get_json() == {"Message": "Flask is Running!"}
     assert response.status_code == 200
 
 
@@ -43,19 +42,19 @@ def test_get_bad_item(client):
     assert response.status_code == 404
 
 
-def test_put_item(client):
+def test_post_item(client):
     item = {
         "_id": 999,
         "name": "Test object",
         "sell_in": 1099,
         "quality": 2000
     }
-    response = client.put("/items/insert/", json=item)
+    response = client.post("/items/insert/", json=item)
     assert response.status_code == 200
     assert response.get_json() == {"Message": "The item has been introduced with id 999"}
 
 
-def test_put_repetedItem(client):
+def test_post_repetedItem(client):
     item = {
         "_id": 999,
         "name": "Test object",
@@ -63,20 +62,30 @@ def test_put_repetedItem(client):
         "quality": 2000
     }
 
-    response = client.put("/items/insert/", json=item)
-    assert response.status_code == 200
+    response = client.post("/items/insert/", json=item)
+    assert response.status_code == 400
     assert response.get_json() == {"Message": "The item has not been introduced, maybe is already at the DB"}
 
 
-def test_put_fail_item(client):
+def test_post_fail_item(client):
     item = {
         "_id": "this is not number",
         "name": "Test object",
         "sell_in": 1099,
         "quality": 2000
     }
-    response = client.put("/items/insert/", json=item)
+    response = client.post("/items/insert/", json=item)
     assert response.status_code == 400
+
+
+def test_put_item(client):
+    response = client.put("/items/update/999")
+    assert response.status_code == 200
+
+
+def test_put_inexistingItem(client):
+    response = client.put("/items/update/9ewwefwf")
+    assert response.status_code == 404
 
 
 def test_delete_existingItem(client):
@@ -87,8 +96,9 @@ def test_delete_existingItem(client):
 
 def test_delete_notExistingItem(client):
     response = client.delete("/items/delete/999")
-    assert response.status_code == 200
+    assert response.status_code == 400
     assert response.get_json() == {"Message": "The item is not in the DB"}
+
 
 def test_get_getAllItems(client):
     response = client.get("/items/all")
@@ -98,6 +108,7 @@ def test_get_getAllItems(client):
 def test_get_updateAllItems(client):
     response = client.get("/db/update")
     assert response.status_code == 200
+
 
 def test_get_deleteDb(client):
     response = client.get("/db/drop")

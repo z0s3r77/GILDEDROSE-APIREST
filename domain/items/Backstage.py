@@ -1,8 +1,7 @@
-from domain.items.Interface import Interfaz
 from domain.items.NormalItem import NormalItem
 
 
-class Backstage(NormalItem, Interfaz):
+class Backstage(NormalItem):
     def __init__(self, name, sell_in, quality):
         NormalItem.__init__(self, name, sell_in, quality)
 

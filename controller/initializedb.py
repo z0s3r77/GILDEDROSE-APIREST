@@ -1,6 +1,7 @@
 from flask_restful import Resource
 from service.service import intializeDb
 
+
 class IntializeDB(Resource):
 
     def get(self):
