@@ -13,11 +13,18 @@ def create_app():
     app = Flask(__name__)
     api = Api(app, catch_all_404s=True)
 
-    api.add_resource(Item, "/items/<int:id>", "/items/insert/", "/items/delete/<int:id>")
+    # Items endpoints
+    api.add_resource(Item, "/items/<int:id>")
+    api.add_resource(Item, "/items/insert/", endpoint="insert_item")
+    api.add_resource(Item, "/items/delete/<int:id>", endpoint="delete_item")
     api.add_resource(ItemAll, "/items/all")
+
+    # Database endpoints
     api.add_resource(UpdateDB, "/db/update")
     api.add_resource(IntializeDB, "/db/initialize")
     api.add_resource(DropDb, "/db/drop")
+
+    # Welcome endpoint
     api.add_resource(Wellcome, "/")
 
     return app
