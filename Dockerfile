@@ -12,4 +12,4 @@ COPY . /app
 EXPOSE 5000
 
 # Incio el server de Flask
-CMD ["python3", "controller/main.py"]
+CMD ["flask", "--app", "controller/main", "run", "--host=0.0.0.0"]

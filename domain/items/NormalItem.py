@@ -1,8 +1,7 @@
-from domain.items.Interface import Interfaz
 from domain.items.Item import Item
 
 
-class NormalItem(Item, Interfaz):
+class NormalItem(Item):
     # Aquí se establece que NormalItem es un tipo de Item
     def __init__(self, name, sell_in, quality):
         Item.__init__(self, name, sell_in, quality)
