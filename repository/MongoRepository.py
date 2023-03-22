@@ -36,6 +36,8 @@ class MongoRepository(Repository):
             return list(result)
 
     def update(self, id, updatedItem):
+        if self.magical_items.count_documents({"_id": id}) == 0:
+            return False
         filterToUpdate = {"_id": id}
         result = self.magical_items.replace_one(filterToUpdate, updatedItem)
         return result.acknowledged

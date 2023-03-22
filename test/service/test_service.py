@@ -15,20 +15,22 @@ sulfuras = {
     "quality": 10
 }
 
+
 @pytest.mark.test_service
 def test_initializeDb():
-    succes = intializeDb()
-    assert succes == True
+    success = intializeDb()
+    assert success == True
+
 
 @pytest.mark.test_service
 def test_insert_item():
-    assert service.insertItem(testItem) == True
-    assert service.insertItem(sulfuras) == True
+    assert service.insertItem(testItem) == "CREATED"
+    assert service.insertItem(sulfuras) == "CREATED"
 
 
 @pytest.mark.test_service
 def test_insert_fail_item():
-    assert service.insertItem('Not an item') == False
+    assert service.insertItem('Not an item') == "ERROR"
 
 
 @pytest.mark.test_service
@@ -91,5 +93,3 @@ def test_delete_item():
 def test_delete_fail_item():
     assert service.deleteItem(12312323) == False
     dropCollection()
-
-

@@ -19,28 +19,35 @@ class Item(Resource):
     def get(self, id):
         items = getItem(id)
         if items == {"name": "", "sell_in": 0, "quality": 0}:
+            # 404 not found
             abort(404, message="The item with {} doesn't exist".format(id))
+            # 200 ok
         return items, 200
 
-    def post(self):
+    def put(self):
         item = item_parser.parse_args()
         success = insertItem(item)
-        if success:
-            return {"Message": "The item has been introduced with id {}".format(item['_id'])}, 200
-        else:
-            return {"Message": "The item has not been introduced, maybe is already at the DB"}, 400
+        if success == "CREATED":
+            # 201 created
+            return {"Message": "The item has been introduced with id {}".format(item['_id'])}, 201
+        elif success == "UPDATED":
+            # 204 no content
+            return 204
 
-    def put(self, id):
+    def post(self, id):
         success = updateItem(id)
         if success:
+            # 200 ok
             return {"Message": "The item have been updated"}, 200
-
+        else:
+            # 404 not found
+            return {"Error Message": "The item with id {} not exist".format(id)}, 404
 
     def delete(self, id):
         success = deleteItem(id)
         if success:
-            return {"Message": "The item has been deleted with id {}".format(id)}, 200
+            # 202 accepted
+            return {"Message": "The item has been deleted with id {}".format(id)}, 202
         else:
-            return {"Message": "The item is not in the DB"},400
-
-
+            # 404 not found
+            return {"Message": "The item is not in the DB"}, 404

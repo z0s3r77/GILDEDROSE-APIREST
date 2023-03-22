@@ -10,10 +10,26 @@ dabatase = MongoRepository('gildedRose', 'magicalitems')
 
 
 def insertItem(item):
+    if isinstance(item, dict):
+        pass
+    else:
+        return "ERROR"
     """
     This method inserts an item into database. RETURNS: Boolean
     """
-    return dabatase.create(item)
+    if dabatase.create(item):
+        return "CREATED"
+    else:
+        if replaceItem(item["_id"], item):
+            return "UPDATED"
+
+
+def replaceItem(id, item):
+    """
+    This method replace an item into database. RETURNS: Boolean
+    """
+    return dabatase.update(id, item)
+
 
 
 def takeItem(id):
@@ -138,4 +154,5 @@ def dropCollection():
     This method remove all the data in the DB
     """
     dabatase.dropCollection()
+
 
