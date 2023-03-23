@@ -14,6 +14,15 @@
     - isort
 - Instalación
 - Documentación API REST
+  - Endpoints
+  - Ejemplos de uso
+    - /items/all
+    - /items/insert
+    - /items/update/<id:int>
+    - /items/delete/<id:int>
+    - /db/initialize
+    - /db/update
+    - /db/drop
 - Metodología de desarrollo
 - Docker 
   - Dockerfile
@@ -45,7 +54,8 @@ En otras palabras, esta herramienta trata de identificar posibles vulnerabilidad
 
 
 #### Tox 
-Tox es una herramienta que automatiza la configuración y ejecución de pruebas en múltiples entornos para proyectos Python. Con Tox, puedes definir diferentes entornos de prueba en un archivo de configuración llamado __tox.ini__. Cada entorno puede tener diferentes versiones de Python, paquetes de dependencias y comandos de prueba. Esto te permite asegurarte de que tu proyecto funciona correctamente en diferentes configuraciones de entorno de prueba.
+Tox es una herramienta que automatiza la configuración y ejecución de pruebas en múltiples entornos para proyectos Python. Con Tox, puedes definir diferentes entornos de prueba en un archivo de configuración llamado __tox.ini__.
+Cada entorno puede tener diferentes versiones de Python, paquetes de dependencias y comandos de prueba. Esto te permite asegurarte de que tu proyecto funciona correctamente en diferentes configuraciones de entorno de prueba.
 
 #### Pylint
 Pylint es una herramienta de análisis estático de código abierto para Python. Pylint se puede usar para detectar errores en el código, así como para evaluar la calidad del código.
@@ -102,7 +112,105 @@ Para verificar que la API REST está funcionando, dirígete a tu navegador y esc
 ```
 
 ## Documentación API REST
+### Endpoints
 
+La API consta de los siguientes endpoints:
+
+| Endpoint               | Método | Descripción                                                |
+|------------------------|-------|------------------------------------------------------------|
+| /                      | GET   | Devuelve un mensaje de bienvenida                          |
+| /items/<id:int>        | GET   | Devuelve un item por su id                                 |
+| /items/update/<id:int> | POST  | Actualiza un item por su id                                |
+| /items/delete/<id:int> | DELETE | Elimina un item por su id                                  |
+| /items/insert          | PUT   | Recibe un documento JSON y lo inserta a la DB              |
+| /items/all             | GET   | Devuelve todos los items de la DB                          |
+| /db/initialize         | GET   | Inicializa la DB con los datos del fichero __itemList.py__ |
+| /db/update             | GET   | Ejecuta el método __updateQuality()__ en todos los items   |
+| /db/drop               | GET   | Elimina la DB                                              |
+
+### Ejemplos de uso
+A continuation, se muestran algunos ejemplos de uso de la API REST con el comando __curl__:
+
+#### GET /
+```
+  curl -X GET http://localhost:5000
+  
+  OK 200: {
+    "Message": "Flask is Running!"
+    }
+  
+```
+#### GET /items/1
+```
+  curl -X GET http://localhost:5000/items/1
+  
+  OK 200: {
+    "name": "+5 Dexterity Vest",
+    "sell_in": 10,
+    "quality": 20
+    }
+```
+#### POST /items/update/1
+```
+  curl -X POST http://localhost:5000/items/update/1
+  
+  OK 200: {
+    "Message": "The item have been updated"
+  }
+  
+  NOT FOUND 404: {
+    "Error Message": "The item with id 1000 not exist"
+  }
+  
+```
+#### DELETE /items/delete/1
+```
+  curl -X DELETE http://localhost:5000/items/delete/100
+  
+    ACCEPTED 202: {
+        "Message": "The item has been deleted with id 100"
+    }
+    
+    NOT FOUND 404: {
+        "Message": "The item is not in the DB"
+    }
+  
+```
+#### PUT /items/insert
+```
+  curl -X PUT -H "Content-Type: application/json" -d '{"_id": 111, "name":"Aged Brie","sell_in":2,"quality":0}' http://localhost:5000/items/insert
+  
+    CREATED 201: {
+        "Message": "The item has been introduced with id 111"
+    }
+    
+    OK 200 (Esto pasa si el item ya se encontraba en la DB y se ha actualizado)
+    
+  curl -X PUT -H "Content-Type: application/json" -d '{"_id": 111, "name":"Aged Brie","sell_in":2,"quality":0, "quality2": 12}' http://localhost:5000/items/insert
+    
+  BAD REQUEST 400: {
+    "message": "The browser (or proxy) sent a request that this server could not understand."
+  }
+```
+#### GET /items/all
+```
+  curl -X GET http://localhost:5000/items/all
+  
+  200 OK : Devuelve todos los items de la DB en formato JSON
+  
+```
+#### GET /db/initialize
+```
+  curl -X GET http://localhost:5000/db/initialize
+```
+#### GET /db/update
+```
+  curl -X GET http://localhost:5000/db/update
+```
+#### GET /db/drop
+```
+  curl -X GET http://localhost:5000/db/drop
+```
 
 
 ## Docker
