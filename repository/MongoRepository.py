@@ -1,5 +1,7 @@
 import os
+
 import pymongo
+
 from repository.Repository import Repository
 
 
@@ -19,9 +21,7 @@ class MongoRepository(Repository):
             return True
 
     def read(self, id=None):
-
         if id is not None:
-
             query = {"_id": id}
 
             if self.magical_items.count_documents(query) != 0:
@@ -31,17 +31,17 @@ class MongoRepository(Repository):
 
                 return result
         else:
-
             result = self.magical_items.find()
             return list(result)
 
     def update(self, id, updatedItem):
+        if self.magical_items.count_documents({"_id": id}) == 0:
+            return False
         filterToUpdate = {"_id": id}
         result = self.magical_items.replace_one(filterToUpdate, updatedItem)
         return result.acknowledged
 
     def delete(self, id):
-
         query = {"_id": id}
         if self.magical_items.find_one_and_delete(query) is not None:
             return True

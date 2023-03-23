@@ -9,6 +9,5 @@ def test_mongodb_ping():
     response = requests.get(atlas_url)
     response.raise_for_status()
 
-
     # Check HTTP code response
     assert response.status_code == 200
