@@ -1,11 +1,12 @@
-from flask_restful import Resource, fields, marshal_with, abort, reqparse
-from service.service import getItem, insertItem, deleteItem, updateItem
+from flask_restful import Resource, abort, fields, marshal_with, reqparse
+
+from service.service import deleteItem, getItem, insertItem, updateItem
 
 item_parser = reqparse.RequestParser()
-item_parser.add_argument('_id', type=int, required=True)
-item_parser.add_argument('name', type=str, required=True)
-item_parser.add_argument('sell_in', type=int, required=True)
-item_parser.add_argument('quality', type=int, required=True)
+item_parser.add_argument("_id", type=int, required=True)
+item_parser.add_argument("name", type=str, required=True)
+item_parser.add_argument("sell_in", type=int, required=True)
+item_parser.add_argument("quality", type=int, required=True)
 
 item_fields = {
     "name": fields.String,
@@ -29,7 +30,9 @@ class Item(Resource):
         success = insertItem(item)
         if success == "CREATED":
             # 201 created
-            return {"Message": "The item has been introduced with id {}".format(item['_id'])}, 201
+            return {
+                "Message": "The item has been introduced with id {}".format(item["_id"])
+            }, 201
         elif success == "UPDATED":
             # 204 no content
             return 204

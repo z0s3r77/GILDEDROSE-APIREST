@@ -1,4 +1,5 @@
 import pytest
+
 from controller.main import create_app
 
 
@@ -38,9 +39,7 @@ def test_get_AnExistingItem(client):
 
 @pytest.mark.test_endpoints
 def test_get_NonExistingItem(client):
-    result = {
-        "message": "The item with 1223123123 doesn't exist"
-    }
+    result = {"message": "The item with 1223123123 doesn't exist"}
     response = client.get("/items/1223123123")
     assert response.get_json() == result
     assert response.status_code == 404
@@ -48,25 +47,17 @@ def test_get_NonExistingItem(client):
 
 @pytest.mark.test_endpoints
 def test_put_InsertNewItem(client):
-    item = {
-        "_id": 999,
-        "name": "Test object",
-        "sell_in": 1099,
-        "quality": 2000
-    }
+    item = {"_id": 999, "name": "Test object", "sell_in": 1099, "quality": 2000}
     response = client.put("/items/insert/", json=item)
     assert response.status_code == 201
-    assert response.get_json() == {"Message": "The item has been introduced with id 999"}
+    assert response.get_json() == {
+        "Message": "The item has been introduced with id 999"
+    }
 
 
 @pytest.mark.test_endpoints
 def test_put_UpdateAnExistingItem(client):
-    item = {
-        "_id": 999,
-        "name": "Test object",
-        "sell_in": 199,
-        "quality": 2000
-    }
+    item = {"_id": 999, "name": "Test object", "sell_in": 199, "quality": 2000}
     response = client.put("/items/insert/", json=item)
     assert response.status_code == 200
 
@@ -75,7 +66,9 @@ def test_put_UpdateAnExistingItem(client):
 def test_post_UpdateMethodOnNonExistingItem(client):
     response = client.post("/items/update/2132313")
     assert response.status_code == 404
-    assert response.get_json() == {"Error Message": "The item with id 2132313 not exist"}
+    assert response.get_json() == {
+        "Error Message": "The item with id 2132313 not exist"
+    }
 
 
 @pytest.mark.test_endpoints

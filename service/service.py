@@ -6,7 +6,7 @@ from domain.items.NormalItem import NormalItem
 from domain.items.Sulfuras import Sulfuras
 from repository.MongoRepository import MongoRepository
 
-dabatase = MongoRepository('gildedRose', 'magicalitems')
+dabatase = MongoRepository("gildedRose", "magicalitems")
 
 
 def insertItem(item):
@@ -29,7 +29,6 @@ def replaceItem(id, item):
     This method replace an item into database. RETURNS: Boolean
     """
     return dabatase.update(id, item)
-
 
 
 def takeItem(id):
@@ -82,11 +81,13 @@ def setItemJsonToInstace(itemJson):
         "Aged Brie": AgedBrie,
         "Sulfuras of Asgard": Sulfuras,
         "Backstage passes to a TAFKAL80ETC concert": Backstage,
-        "Conjured Mana Cake": Conjured
+        "Conjured Mana Cake": Conjured,
     }
 
-    item_class = avaliableObjects.get(itemJson['name'], NormalItem)
-    item_instance = item_class(name=itemJson['name'], sell_in=itemJson['sell_in'], quality=itemJson['quality'])
+    item_class = avaliableObjects.get(itemJson["name"], NormalItem)
+    item_instance = item_class(
+        name=itemJson["name"], sell_in=itemJson["sell_in"], quality=itemJson["quality"]
+    )
     return item_instance
 
 
@@ -98,7 +99,7 @@ def setJsonItem(itemInstance, id):
         "_id": id,
         "name": itemInstance.getName(),
         "sell_in": itemInstance.getSell_in(),
-        "quality": itemInstance.getQuality()
+        "quality": itemInstance.getQuality(),
     }
 
     return result
@@ -132,7 +133,7 @@ def updateAllItems():
     result = dabatase.read()
 
     for item in result:
-        updateItem(item['_id'])
+        updateItem(item["_id"])
 
     result = dabatase.read()
     return result
@@ -154,5 +155,3 @@ def dropCollection():
     This method remove all the data in the DB
     """
     dabatase.dropCollection()
-
-

@@ -3,8 +3,6 @@ import pytest
 from domain.items.Backstage import Backstage
 
 
-
-
 # Fixture to create an object
 @pytest.fixture
 def backstage():

@@ -6,10 +6,10 @@ class GildedRose:
         self.items = items
         self.objects = []
         self.avaliableObjects = {
-            "AgedBrie": 'AgedBrie',
-            "Sulfuras": 'Sulfuras',
+            "AgedBrie": "AgedBrie",
+            "Sulfuras": "Sulfuras",
             "Backstage": "Backstage passes to a TAFKAL80ETC concert",
-            "Conjured": "Conjured Mana Cake"
+            "Conjured": "Conjured Mana Cake",
         }
 
     def getObjects(self):
@@ -24,7 +24,9 @@ class GildedRose:
                 for i in self.avaliableObjects:
                     if self.avaliableObjects[i] == item.name:
                         value = i
-                self.objects.append([eval(value)(item.name, item.sell_in, item.quality)])
+                self.objects.append(
+                    [eval(value)(item.name, item.sell_in, item.quality)]
+                )
             else:
                 self.objects.append([NormalItem(item.name, item.sell_in, item.quality)])
 

@@ -10,6 +10,8 @@
     - Coverage
     - Bandit
     - Tox
+    - pylint
+    - isort
 - Instalación
 - Documentación API REST
 - Metodología de desarrollo
@@ -44,6 +46,12 @@ En otras palabras, esta herramienta trata de identificar posibles vulnerabilidad
 
 #### Tox 
 Tox es una herramienta que automatiza la configuración y ejecución de pruebas en múltiples entornos para proyectos Python. Con Tox, puedes definir diferentes entornos de prueba en un archivo de configuración llamado __tox.ini__. Cada entorno puede tener diferentes versiones de Python, paquetes de dependencias y comandos de prueba. Esto te permite asegurarte de que tu proyecto funciona correctamente en diferentes configuraciones de entorno de prueba.
+
+#### Pylint
+Pylint es una herramienta de análisis estático de código abierto para Python. Pylint se puede usar para detectar errores en el código, así como para evaluar la calidad del código.
+
+#### Isort
+Isort es una herramienta de ordenación de importaciones de Python. Es una herramienta de línea de comandos que puede ser usada para ordenar automáticamente las importaciones en Python. 
 
 ## Instalación
 Primero debes clonar el repositorio:
