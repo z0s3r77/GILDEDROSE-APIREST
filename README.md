@@ -1,10 +1,12 @@
 # PROYECTO-FLASK
 **Indice**
 - Descripción 
-- Requisitos
+- Requisitos del Sistema
+- Librerias utilizadas
   - Funcionales
     - Flask
     - flask-restful
+    - PyMongo
   - Desarrollo
     - Pytest
     - Coverage
@@ -24,20 +26,36 @@
     - /db/update
     - /db/drop
 - Metodología de desarrollo
+    - TDD
+    - CI/CD
 - Docker 
   - Dockerfile
   - docker build
   - docker run
 
 ## Descripción
-## Requisitos
+
+## Requisitos del Sistema
+Tener instalado: 
+
+  - Python 3.10
+  - pip3
+  - Git
+
+Con esto, ya estaría todo listo para ejecutar la aplicación.
+
+## Librerias utilizadas
 ### Funcionales
 #### Flask
 La API rest está montada sobre Flask, un micro framework de Python que nos permite montar un servicio web de una manera 
 rapida. Por defecto, Flask utiliza el puerto 5000 por defecto. (en la aplicación se usa este mismo). Por defecto, Flask utiliza el servidor web integrado llamado "Werkzeug" para escuchar en el puerto 5000. Werkzeug es una biblioteca WSGI (Web Server Gateway Interface) escrita en Python que proporciona una base para el desarrollo de aplicaciones web. Es uno de los tres pilares de Flask.
 
 #### Flask-restful
-Al ser una API RESTful, he utilizado la extesión de Flask , __Flask-Restful__. Con esta extensión se pueden definir de manera sencilla las rutas, recursos y operaciones HTTP(GET,POST,PUT, etc.) que estarán disponibles.
+Al ser una API RESTful, he utilizado la extension de Flask, __Flask-Restful__. Con esta extensión se pueden definir de manera sencilla las rutas, recursos y operaciones HTTP(GET,POST,PUT, etc.) que estarán disponibles.
+
+#### PyMongo
+PyMongo es una librería de Python que nos permite conectarnos a una base de datos MongoDB y realizar operaciones CRUD (Create, Read, Update, Delete).
+
 
 ### Desarrollo
 #### Pytest
@@ -45,7 +63,7 @@ Pytest es un framework que usado para implementar la metodología TDD a la aplic
 Todos los ficheros test están en el directorio __/test__.
 
 #### Coverage
-Coverage es otro framework de desarrollo , que la he utilizado para medir la cobertura del código durante las implementación de los test.
+Coverage es otro framework de desarrollo, que la he utilizado para medir la cobertura del código durante las implementación de los test.
 De este modo, me aseguro que todo el código está bajo control.
 
 #### Bandit
@@ -64,6 +82,11 @@ Pylint es una herramienta de análisis estático de código abierto para Python.
 Isort es una herramienta de ordenación de importaciones de Python. Es una herramienta de línea de comandos que puede ser usada para ordenar automáticamente las importaciones en Python. 
 
 ## Instalación
+
+__ACLARACIÓN:__ También está la posibilidad de ejecutar la aplicación sin necesidad de clonar este respositorio. Para esto siga el siguiente manual:
+[Manual de instalación de la aplicación en un contenedor Docker](https://hub.docker.com/r/z0s3r77/flaskapirestolivanders)
+
+
 Primero debes clonar el repositorio:
 ```
   git clone https://github.com/z0s3r77/PROYECTO-FLASK
@@ -85,7 +108,7 @@ Antes de iniciar la aplicación, debes establecer las dos variables de entorno q
   export FLASK_APP=controller/main.py
   export FLASK_RUN_HOST=0.0.0.0
 ```
-Por último, necesitas exportas las variables de entorno de Mongo Atlas, para ello necesitarás una __KEY__ para la usar la API de atlas y __la dirección del cluster__.
+Por último, necesitas exportas las variables de entorno de Mongo Atlas, para ello necesitarás una __KEY__ para usar la API de atlas y __la dirección del cluster__.
 Esta información la puedes encontrar en tu página de Mongo Atlas.
   -  Visita: https://cloud.mongodb.com ,en caso de no tener cuenta, puedes registrarte de forma gratuita. Dirigete a al siguiente apartado:
     [imagen connect]
@@ -110,6 +133,13 @@ Para verificar que la API REST está funcionando, dirígete a tu navegador y esc
 ```
   http://localhost:5000
 ```
+Si todo ha ido bien, deberías ver el siguiente mensaje:
+```
+  {
+    "Message": "Flask is Running!"
+  }
+```
+
 
 ## Documentación API REST
 ### Endpoints
@@ -129,6 +159,10 @@ La API consta de los siguientes endpoints:
 | /db/drop               | GET   | Elimina la DB                                              |
 
 ### Ejemplos de uso
+Aclaración: Es importante, que antes de ejecutar las peticiones realices la petición de inicialización de la DB, para ello, debes ejecutar el siguiente comando:
+```
+  curl -X GET http://localhost:5000/db/initialize
+```
 A continuation, se muestran algunos ejemplos de uso de la API REST con el comando __curl__:
 
 #### GET /
@@ -138,27 +172,32 @@ A continuation, se muestran algunos ejemplos de uso de la API REST con el comand
   OK 200: {
     "Message": "Flask is Running!"
     }
+    
   
 ```
 #### GET /items/1
 ```
   curl -X GET http://localhost:5000/items/1
   
-  OK 200: {
+  200 OK: {
     "name": "+5 Dexterity Vest",
     "sell_in": 10,
     "quality": 20
     }
+   
+  404 NOT FOUND: {
+    "Error Message": "The item with id 1 not exist"
+  } 
 ```
 #### POST /items/update/1
 ```
   curl -X POST http://localhost:5000/items/update/1
   
-  OK 200: {
+  200 OK: {
     "Message": "The item have been updated"
   }
   
-  NOT FOUND 404: {
+  404 NOT FOUND: {
     "Error Message": "The item with id 1000 not exist"
   }
   
@@ -167,11 +206,11 @@ A continuation, se muestran algunos ejemplos de uso de la API REST con el comand
 ```
   curl -X DELETE http://localhost:5000/items/delete/100
   
-    ACCEPTED 202: {
+    202 ACCEPTED: {
         "Message": "The item has been deleted with id 100"
     }
     
-    NOT FOUND 404: {
+    404 NOT FOUND: {
         "Message": "The item is not in the DB"
     }
   
@@ -180,15 +219,15 @@ A continuation, se muestran algunos ejemplos de uso de la API REST con el comand
 ```
   curl -X PUT -H "Content-Type: application/json" -d '{"_id": 111, "name":"Aged Brie","sell_in":2,"quality":0}' http://localhost:5000/items/insert
   
-    CREATED 201: {
+    201 CREATED: {
         "Message": "The item has been introduced with id 111"
     }
     
-    OK 200 (Esto pasa si el item ya se encontraba en la DB y se ha actualizado)
+    200 OK:  (Esto pasa si el item ya se encontraba en la DB y se ha actualizado)
     
   curl -X PUT -H "Content-Type: application/json" -d '{"_id": 111, "name":"Aged Brie","sell_in":2,"quality":0, "quality2": 12}' http://localhost:5000/items/insert
     
-  BAD REQUEST 400: {
+  400 BAD REQUEST: {
     "message": "The browser (or proxy) sent a request that this server could not understand."
   }
 ```
@@ -197,52 +236,87 @@ A continuation, se muestran algunos ejemplos de uso de la API REST con el comand
   curl -X GET http://localhost:5000/items/all
   
   200 OK : Devuelve todos los items de la DB en formato JSON
+  404 NOT FOUND: {
+    "Error Message": "The items are not in the DB, intialize with /db/initialize"
+  }
   
 ```
 #### GET /db/initialize
 ```
   curl -X GET http://localhost:5000/db/initialize
+  200 OK: {
+    "Message": "GildedRose is Open!"
+  }
 ```
 #### GET /db/update
 ```
   curl -X GET http://localhost:5000/db/update
+  404 NOT FOUND: {
+    "Error Message": "The items are not in the DB, intialize with /db/initialize"
+  }
+  200 OK: Devuelve todos los items de la DB en formato JSON
 ```
 #### GET /db/drop
 ```
   curl -X GET http://localhost:5000/db/drop
+    200 OK: {
+        "Message": "GildedRose is Closed!"
+    }
 ```
 
+## Metodología de desarrollo
+### TDD
+Para desarrollar la API REST, decidí utilizar la metodología TDD (Test Driven Development). Esta metodología consiste en desarrollar el código de la aplicación, basándose en los test que se van creando. Para ello, se crean los test primero, y luego se desarrolla el código para que pase los test. (__Aclaración__: En algún caso se dificultó está práctica y primero se desarrollaba el código y luego se testeaba) 
+
+### CI/CD
+Para la integración continua, decidí utilizar __GitHub Actions__. Este servicio de __GitHub__ permite crear workflows, que son una serie de pasos que se ejecutan en el servidor de __GitHub__ cuando se realiza un push (u otra actividad) a un repositorio. En este caso, se ha generado un workflow que se ejecuta cuando se realiza un push a la rama __dev__. Este workflow se encarga de ejecutar los test de la aplicación, de este modo
+me aseguraba que el código que estaba subiendo a la rama __dev__ pasaba los test y no comprometía las funcionalidades. Por otro lado, como CD interpreté que la puesta en producción sería subir el codigó a una imagen de Docker Hub, para ello en la rama master hay un workflow que hace este trabajo automáticamente.
 
 ## Docker
 ### Dockerfile
 
 Para poder empezar a desarrollar el proyecto, uno de los requisitos era montar la aplicación sobre un contenedor de Docker. Para esto, una vez tenia una base muy pequeña del proyecto decidí hacer un Dockerfile.
-Como sabran los lectores, el Dockerfile sirve para, apartir de este archivo con estructura __yaml__ introducir instrucciones sobre como actuará el contenedor. El archivo Dockerfile contiene la siguiente estructura:
+Como sabran los lectores, el Dockerfile sirve para, a partir de este archivo con estructura __yaml__ introducir instrucciones sobre como actuará el contenedor. El archivo Dockerfile contiene la siguiente estructura:
 ````
-    # IMAGEN DE PYTHON3.10 con Alpine, que es una version ligera de SO
-    FROM python:3.10-alpine
-    
-    WORKDIR /app
-    
-    COPY requirements.txt /app
-    RUN pip3 install --no-cache-dir -r requirements.txt
-    
-    COPY . /app
-    
-    EXPOSE 5000
-    
-    # Incio el server de Flask
-    CMD ["python3", "controller/main.py"]
+# IMAGEN DE PYTHON3.10 con Alpine, que es una version ligera de SO
+FROM python:3.10-alpine
+
+# Instalar dependencias necesarias
+RUN apk add --no-cache build-base libffi-dev openssl-dev
+
+# Configurar variables de entorno
+ENV PYTHONPATH="/app/" \
+    FLASK_APP="controller/main" \
+    FLASK_ENV="production" \
+    FLASK_RUN_HOST="0.0.0.0" \
+    FLASK_RUN_PORT="5000"
+
+# Directorio de trabajo
+WORKDIR /app
+
+# Copiar archivos necesarios
+COPY requirements.txt /app/
+COPY . /app/
+
+# Instalar dependencias de Python
+RUN pip3 install --no-cache-dir -r requirements.txt
+
+# Exponer puerto 5000
+EXPOSE 5000
+
+# Iniciar el servidor de Flask
+CMD ["flask", "run"]
 ````
 Como se puede ver, es un archivo sencillo, que por orden de instrucciones realiza las siguientes tareas:
 
     1. Descarga la imagen de python3.10-alpine
-    2. Crea y establece como directorio de trabajo /app
-    3. Copia, del directorio de este respositorio el fichero requirements.txt al directorio de trabajo del contenedor. 
-    4. Instala las dependencias necesarias de requirements.txt
-    5. Copia el contenido del directorio al contenedor (así ya tiene disponible todo el "tinglao")
-    6. Abre el puerto 5000 del contenedor.
-    7. Ejecuta dentro de este el comando "python3 controller/main.py", que es el que pone en marcha flask.
+    2. RUN apk add --no-cache build-base libffi-dev openssl-dev: se instalan las dependencias necesarias para compilar algunas bibliotecas de Python, específicamente build-base, libffi-dev y openssl-dev.
+    3. ENV PYTHONPATH="/app/" FLASK_APP="controller/main" FLASK_ENV="production" FLASK_RUN_HOST="0.0.0.0" FLASK_RUN_PORT="5000": se establecen algunas variables de entorno útiles para la aplicación. 
+    4. WORKDIR /app: se establece el directorio de trabajo para la aplicación en /app.
+    5. COPY requirements.txt /app/ y COPY . /app/: se copian los archivos necesarios para la aplicación. En particular, requirements.txt es copiado al directorio /app.
+    6. RUN pip3 install --no-cache-dir -r requirements.txt: se instalan las dependencias de Python especificadas en el archivo requirements.txt.
+    7. EXPOSE 5000: se expone el puerto 5000 para que se pueda acceder a la aplicación Flask.
+    8. CMD ["flask", "run"]: se ejecuta el comando flask run para iniciar el servidor de Flask.
 
 ### docker build
 
@@ -261,7 +335,6 @@ Ahora montamos la aplicación, en mi caso compartiendo el directorio PROYECTO-FL
 ````
     docker run -p 5000:5000 -v C:\Users\Ipopd\Documents\FLASK\PROYECTO-FLASK\:/app/. --rm flaskolivanders
 ````
-Esto me permite, seguir trabajando en el proyecto y, cuando se considera que se ha avanzado, se hace un commit de la imagen del contenedor. Esto con el fin de, al final del proyecto, tener la aplicación guardada y montada en una imagen y desplegarla en un contenedor.
+Con este comando le estamos indicando que "ejecute" un contenedor a partir de la imagen flaskapirestolivanders, que expone el puerto 5000 del contenedor al puerto 5000 del host, que monta el directorio PROYECTO-FLASK en /app del contenedor, que elimine el contenedor cuando se detenga y que se ejecute en segundo plano.
+Así puedo trabajar con la aplicación en el host y que Flask se ejecute en el contenedor. En caso de querer trabajar con más compañeros, tan solo debo pasarles la imagen de Flask.
 
-
-docker run -e KEY="SwVPwadBrjuOJcUQrh887SGLLUq9IGo2e6fFOPo0lQumOkRNW0xTC5v3YROR1S3T" -e ATLAS="mongodb+srv://sestacio:trancas24@sandbox.dcnt9qr.mongodb.net/test?retryWrites=true&w=majority" -p 5000:5000 --rm  -v C:\Users\Ipopd\Documents\FLASK\PROYECTO-FLASK\:/app/.   flaskapirestolivandersv2
