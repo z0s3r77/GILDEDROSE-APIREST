@@ -27,7 +27,11 @@ jobs:
 
     #Con está acción guardamos en caché las dependencias descargadas para mejorar la velociadad de ejecución del RUNNER
       - name: Caching pip cache
-      - uses: actions/cache@v3
+        uses: actions/setup-python@v2
+        with:
+          python-version: 3.x
+
+        uses: actions/cache@v3
         with:
           path: ~/.cache/pip
           key: ${{ runner.os }}-pip-${{ hashFiles('**/requirements.txt') }}
