@@ -26,6 +26,7 @@ jobs:
           python-verion: 3.10
 
     #Con está acción guardamos en caché las dependencias descargadas para mejorar la velociadad de ejecución del RUNNER
+      - name: Caching pip cache
       - uses: actions/cache@v3
         with:
           path: ~/.cache/pip
@@ -40,10 +41,9 @@ jobs:
           pip install -r requirements.txt
           export ATLAS=${{ secrets.ATLAS }}
           export KEY=${{ secrets.KEY }}
-          echo $ATLAS
-          echo $KEY
+
 
     #Lanzamos el comando Pytest
-      - name: Running Pytest
+      - name: Running tox
         run:  |
-          pytest
+          tox
