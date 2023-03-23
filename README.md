@@ -111,13 +111,12 @@ Antes de iniciar la aplicación, debes establecer las dos variables de entorno q
 Por último, necesitas exportas las variables de entorno de Mongo Atlas, para ello necesitarás una __KEY__ para usar la API de atlas y __la dirección del cluster__.
 Esta información la puedes encontrar en tu página de Mongo Atlas.
   -  Visita: https://cloud.mongodb.com ,en caso de no tener cuenta, puedes registrarte de forma gratuita. Dirigete a al siguiente apartado:
-    [imagen connect]
-  - Elige la opción "Connect your application" y elige la opción "Python" y copia la dirección del cluster rellenando la url con tu usuario y contraseña.
-    [imagen python]
+      - Elige la opción "Connect your application" y elige la opción "Python" y copia la dirección del cluster rellenando la url con tu usuario y contraseña.
+    ![imagen](https://user-images.githubusercontent.com/80277545/227264121-8172a35a-ae9a-492d-a2d0-081c0be9d8a2.png)
   - Para obtener la KEY, debes dirigirte a la parte de Data API y crear una nueva KEY:
-    [imagen key]
+    ![imagen](https://user-images.githubusercontent.com/80277545/227264312-4c668a4e-1ed3-4151-998d-b39f26de974e.png)
   - Y tomar la KEY generada.
-    [imagen key2]
+    ![imagen](https://user-images.githubusercontent.com/80277545/227264458-6e41a425-f852-4082-afab-6fdbaf1b3b8c.png)
 Ahora, te diriges a tu entorno (venv) y ejecutas los siguientes comandos:
 ```
   export KEY="La KEY que has obtenido de Mongo Atlas"
