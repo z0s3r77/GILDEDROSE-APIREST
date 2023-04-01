@@ -1,6 +1,6 @@
 # PROYECTO-FLASK
 **Indice**
-- Descripción 
+- Descripción técnica
 - Requisitos del Sistema
 - Librerias utilizadas
   - Funcionales
@@ -34,6 +34,18 @@
   - docker run
 
 ## Descripción
+
+La API Rest de GildedRose tiene como objetivo simular todo el inventario de una tienda de items mágicos, cuyo valor de calidad varía según sus días de caducidad y según el tipo de objeto. A rasgos generales, la aplicación se conecta mediante Flask a MongoAtlas y sirve el contenido de la base de datos, si el usuario lo desea, puede actualizar todo el inventario. 
+
+Adicionalmente, se han añadido más funcionalidades, como insertar objetos nuevos, actualizarlos, inicia una base de datos nueva, etc.
+
+Para poder ilustrar mejor la arquitectura de la API, se ha facilitado el siguiente diagrama:
+
+![modulosFlask drawio](https://user-images.githubusercontent.com/80277545/229276115-8c228434-fb1d-42ed-ad37-7df1a5639d00.png)
+
+- La __CAPA DE PRESENTACÍON__ serían los endpoints de Flask, las direcciones URL que usamos para poder enviar peticiones HTTP. La aplicación se inicia mediante el archivo __main.py__ pero consume del resto de modulos que hay en el directorio __/controller__.
+- La __CAPA LÓGICA__ sería el modulo __service.py__. Este modulo es invocado por Flask, es el encargado de realizar las operaciones lógicas, ya sea hacer peticiones a la base de datos o modificar o actualizar objetos. Para actualizar los objetos, se hace servir de la lógica de cada tipo de item guardada en __/domain/items__ . 
+- La __CAPA DE ACCESO A DATOS__ , sería el modulo __MongoRepository.py__ , que sería el encargado de hacer las peticiones a la base de datos y realizar el __CRUD__. 
 
 ## Requisitos del Sistema
 Tener instalado: 
