@@ -1,11 +1,9 @@
 import os
-
 import pymongo
 
-from repository.Repository import Repository
 
-
-class MongoRepository(Repository):
+class MongoRepository:
+    # Initialize the class with the key and the uri of MongoAtlas
     def __init__(self, nameDb, nameCollection):
         self.mongo_atlas = pymongo.MongoClient(os.getenv("ATLAS"))
         self.mongo_key = os.getenv("KEY")

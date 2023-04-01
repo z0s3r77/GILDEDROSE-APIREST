@@ -4,6 +4,7 @@ from service.service import getAllItems
 
 
 class ItemAll(Resource):
+    # GET all items
     def get(self):
         allItems = getAllItems()
         if not allItems:

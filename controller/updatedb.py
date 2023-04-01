@@ -4,6 +4,7 @@ from service.service import updateAllItems
 
 
 class UpdateDB(Resource):
+    # Update all items at the same time and return the updated items
     def get(self):
         allItems = updateAllItems()
         if not allItems:
