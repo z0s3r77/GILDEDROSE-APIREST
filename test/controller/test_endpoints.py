@@ -18,6 +18,15 @@ def client(application):
 
 
 @pytest.mark.test_endpoints
+def test_get_AllItemsWithoutInitializeDb(client):
+    response = client.get("/items/all")
+    assert response.status_code == 404
+@pytest.mark.test_endpoints
+def test_get_UpdateAllItemsWithoutInitializeDb(client):
+    response = client.get("/db/update")
+    assert response.status_code == 404
+
+@pytest.mark.test_endpoints
 def test_get_intializeDb(client):
     response = client.get("/db/initialize")
     assert response.status_code == 200
